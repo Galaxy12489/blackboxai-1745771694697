@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Выбор модели ноутбука</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full">
+        <h1 class="text-2xl font-bold mb-6 text-center">Выберите модель ноутбука</h1>
+        <form method="POST" class="mb-6">
+            <select name="laptop_model" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <option value="" disabled selected>-- Выберите модель --</option>
+                {% for model, data in laptops.items() %}
+                <option value="{{ model }}" {% if model == selected_model %}selected{% endif %}>
+                    {{ model }} - {{ data.price_rub }} ₽
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition">Показать, что можно поменять</button>
+        </form>
+
+        {% if selected_model %}
+        <div class="bg-blue-50 p-4 rounded border border-blue-300">
+            <h2 class="text-xl font-semibold mb-2">Для модели {{ selected_model }} можно поменять:</h2>
+            <ul class="list-disc list-inside text-gray-700">
+                {% for item in upgrades %}
+                <li><i class="fas fa-check-circle text-green-500 mr-2"></i>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
